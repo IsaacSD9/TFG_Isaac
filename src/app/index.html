@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, minimun-scale=1.0, shrink-to-fit=no, viewport-fit=cover" />
+  <meta http-equiv="x-ua-compatible" content="ie-edge" />
+  <meta name="description" content="">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+
+  <title>Scorizer</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="assets/css/libraries/bootstrap/bootstrap.css" rel="stylesheet">
+  <!-- Sweetalert CSS -->
+  <link href="assets/css/libraries/sweetalert/sweetalert2.min.css" rel="stylesheet">
+  <!-- styles -->
+  <link href="assets/css/styles.css" rel="stylesheet">
+  <!-- styles Imagenes -->
+  <link href="https://mobile.scorizer.com/assets/css/styles_img.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-primary home_img" id="body_class">
+  <div class="container ">
+    <div class="row div-center-home">
+      <div class="text-top-home">
+        <div id="logo_project"></div>
+      </div>
+
+      <div class='text-center-home'>
+        <div class="align-item-center text-white ">
+          <h3 class="strong" data-lang="TextIndex">Plataforma de gestión de eventos deportivos especializada en deportes
+            de contacto.</h3>
+          <div class="text-center pt-3">
+            <button type="button" class="btn btn-lg btn-primary input-group-text fw-bold btn-big" id="btn-entrar"
+              onclick="go_to_url('login.html')" data-lang="Entrar">Entrar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIV POLITICAS y COOKIES-->
+      <div>
+        <button class="btn btn-primary d-none" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"></button>
+        <div class="offcanvas offcanvas-bottom height-modal-cookies" tabindex="-1" data-bs-backdrop="false"
+          id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title w-bold" id="offcanvasBottomLabel"
+              data-lang="ModalTittleCookiesPoliticasPrivacidad">
+            </h5>
+          </div>
+          <div class="offcanvas-body">
+            <div data-lang="TextScorizer"></div>
+            <div data-lang="ModalTextCookiesPoliticasPrivacidad" class="mt-2"></div>
+          </div>
+          <div class="offcanvas-footer text-center m-3">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" data-lang="Aceptar"
+              onclick="cookies_accept()"></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" data-lang="GestionarOpciones"
+              onclick="cookies_configuration()"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIV GESTIONAR OPCIONES-->
+      <div>
+        <button class="btn btn-primary d-none" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasBottomConfiguration" aria-controls="offcanvasBottomConfiguration">Politicas</button>
+        <div class="offcanvas offcanvas-bottom height-modal-cookies-configutation" tabindex="-1"
+          data-bs-backdrop="false" id="offcanvasBottomConfiguration"
+          aria-labelledby="offcanvasBottomConfigurationLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title w-bold" id="offcanvasBottomConfigurationLabel"
+              data-lang="GestionarOpcionesCookies">
+            </h5>
+          </div>
+          <div class="offcanvas-body">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="cookies_esenciales"
+                name="check_cookies_all" value="essential" checked disabled>
+              <label class="form-check-label fw-bold check_cookies_all" for="Cookies_esenciales"
+                data-lang="CookiesEsenciales"></label>
+              <div data-lang="CookiesEsencialesText"></div>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="cookies_analiticas"
+                name="check_cookies_all" value="analytical">
+              <label class="form-check-label fw-bold check_cookies_all" for="cookies_analiticas"
+                data-lang="CookiesAnaliticas"></label>
+              <div data-lang="CookiesAnaliticasText"></div>
+            </div>
+          </div>
+          <div class="offcanvas-footer text-center m-3">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" data-lang="ConsentirTodas"
+              onclick="cookies_accept_all_configuration()"></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" data-lang="ConfirmarOpciones"
+              onclick="cookies_accept_configuration()"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-bottom-home fs-7">
+        <div><span class="text-center text-white">© 2013/ <span id="year"></span> Scorizer</span></div>
+        <div><span class="text-center text-white" data-lang="TodosLosDerechosReservados"></span></div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 text-center lg-text-md-start text-white">
+          <span> • </span><small><a href="https://scorizer.com/politica-privacidad/" data-lang="PoliticaDePrivacidad"
+              class="a_white" target="_blank">Política de privacidad</a></small>
+          <span> • </span><small><a href="https://scorizer.com/aviso-legal/" data-lang="AvisoLegal" class="a_white"
+              target="_blank">AvisoLegal</a></small><br>
+          <span> • </span><small><a href="https://scorizer.com/politica-de-cookies/" data-lang="PolíticaDeCookies"
+              class="a_white" target="_blank">Política de cookies</a></small>
+          <span> • </span><small><a href="https://scorizer.com/terminos-y-condiciones/" data-lang="TerminosyCondiciones"
+              class="a_white" target="_blank">Términos y Condiciones</a></small>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 ml-lg-0 text-center lg-text-md-end text-white">
+          <small data-lang="DisenadoYDesarrolladoPor">Diseñado y desarrollado por</small> <small><a
+              href="https://www.scorizer.com/" class="a_white" target="_blank">Scorizer Sports SL
+            </a></small>
+        </div>
+      </div>
+    </div>
+
+</body>
+<script src="assets/js/libraries/jquery/jquery-3.6.0.min.js"></script>
+<script src="assets/js/libraries/bootstrap/bootstrap.js"></script>
+<script src="assets/js/libraries/sweetalert/sweetalert2.min.js"></script>
+
+<script src="assets/js/common/conn.js"></script>
+<script src="assets/js/common/main.js"></script>
+<script src="assets/js/common/general.js"></script>
+<script src="assets/js/common/menu.js"></script>
+
+
+
+
+</html>
