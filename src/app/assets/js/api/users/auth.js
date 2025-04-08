@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Oculta errores anteriores
     errorBox.style.display = "none";
     errorBox.innerText = "";
 
@@ -24,17 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (error) {
-        // Mostramos el mensaje de error dentro del formulario
-        errorBox.innerText = error.message || "Error desconocido al iniciar sesión.";
+        // Personalizar mensaje de error
+        let customMessage = "Ha ocurrido un error.";
+
+        // Puedes inspeccionar el contenido de error.message
+        if (error.message.toLowerCase().includes("invalid login credentials")) {
+          customMessage = "Correo o contraseña incorrectos. Intenta nuevamente.";
+        } else if (error.message.toLowerCase().includes("email not confirmed")) {
+          customMessage = "Debes confirmar tu correo electrónico antes de iniciar sesión.";
+        }
+
+        errorBox.innerText = customMessage;
         errorBox.style.display = "block";
-        return; // 🔁 Importante: salir si hay error
+        return;
       }
 
-      // Si no hay error, continuamos
       window.location.href = "inicio.html";
 
     } catch (err) {
-      // Por si hay otro error inesperado
       errorBox.innerText = "Hubo un error inesperado.";
       errorBox.style.display = "block";
       console.error("Error inesperado:", err);

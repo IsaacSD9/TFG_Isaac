@@ -89,7 +89,7 @@
 
 .login-btn {
   font-size: 1rem;
-  padding: 10px 22px;
+  padding: 20px 22px;
   border-radius: 50px;
   background-color: #00c9ff;
   border: none;
@@ -165,7 +165,7 @@
 
 .btn-login {
   background: #00c9ff;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 40px;
   padding: 14px 0;
@@ -188,3 +188,7 @@
   font-size: 0.95rem;
   text-align: center;
 }
+
+
+
+
