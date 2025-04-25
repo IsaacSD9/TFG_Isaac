@@ -23,9 +23,9 @@ async function renderNavbar() {
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-             <li class="nav-item"><a class="nav-link" href="/inicio.html">Inicio</a></li>
-      <li class="nav-item"><a class="nav-link" href="/profile/profile.html">Perfil</a></li>
-      <li class="nav-item"><a class="nav-link" href="/configuracion.html">Configuración</a></li>
+            <li class="nav-item"><a class="nav-link" href="/inicio.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/profile/profile.html">Perfil</a></li>
+            <li class="nav-item"><a class="nav-link" href="/configuracion.html">Configuración</a></li>
           </ul>
           <div class="d-flex align-items-center text-white">
             <span class="me-3 small">${user.email}</span>
