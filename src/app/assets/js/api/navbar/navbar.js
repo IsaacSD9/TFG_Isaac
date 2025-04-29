@@ -3,7 +3,8 @@ const supabase = window.supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyaXVpY2J6eGFtbnVzb3Nud2piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQwNTkzNTMsImV4cCI6MjA1OTYzNTM1M30.zvjROUxji1NSlkUfW8O8QmtWbvaMsQ_YbACbk_1MvP0'
 );
 
-async function renderNavbar() {
+$(async function() {
+  // Obtener la sesión
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
@@ -13,6 +14,7 @@ async function renderNavbar() {
 
   const user = session.user;
 
+  // HTML de la barra de navegación
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark rounded shadow px-3 mb-4">
       <div class="container-fluid">
@@ -37,15 +39,15 @@ async function renderNavbar() {
       </div>
     </nav>
     <!-- Espaciador para compensar altura + margin -->
-  <div style="height: 100px;"></div>
+    <div style="height: 100px;"></div>
   `;
 
-  document.getElementById("navbar-container").innerHTML = navbarHTML;
+  // Insertar la barra en el contenedor
+  $('#navbar-container').html(navbarHTML);
 
-  document.getElementById("logoutBtn").addEventListener("click", async () => {
+  // Manejar el click de logout
+  $('#logoutBtn').on('click', async function() {
     await supabase.auth.signOut();
     window.location.href = "/index.html";
   });
-}
-
-document.addEventListener("DOMContentLoaded", renderNavbar);
+});
