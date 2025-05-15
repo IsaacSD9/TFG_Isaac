@@ -35,7 +35,7 @@
       <i class="bi bi-people-fill"></i>
       <h5>Alumnos</h5>
     </div>
-    <div class="card-option" onclick="window.location.href='clases/clases.html'">
+    <div class="card-option"  onclick="redirigirClases()">
       <i class="bi bi-journal-bookmark-fill"></i>
       <h5>Clases</h5>
     </div>
@@ -60,5 +60,22 @@
       <h5>Organización</h5>
     </div>
   </div>
+  <script>
+  function redirigirClases() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      alert('No hay usuario logueado');
+      return;
+    }
+
+    if (user.role === 'profesor') {
+      window.location.href = 'clases/clases.html';
+    } else if (user.role === 'alumno') {
+      window.location.href = 'clases/clases-alumnos.html';
+    } else {
+      alert('Role no reconocido');
+    }
+  }
+</script>
 </body>
 </html>

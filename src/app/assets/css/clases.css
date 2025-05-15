@@ -64,11 +64,17 @@ body {
     background: #92fe9d;
     color: black;
   }
+
+  .btn-outline-primary {
+        color: rgb(255, 255, 255);
+
+  }
   .btn-outline-primary.active,
 .btn-outline-primary:hover {
   font-weight: 1000;
 
-    background: #00c9ff;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+
     color: #fff;
 }
   .modal-content {
@@ -127,5 +133,11 @@ body {
   .table a:hover {
     text-decoration: underline; /* Subrayado al pasar el mouse */
   }
-  
-  
+
+  #tabla-presencial th,
+  #tabla-presencial td,
+  #tabla-online th,
+  #tabla-online td {
+    text-align: center;
+    vertical-align: middle;
+  }

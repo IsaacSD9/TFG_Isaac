@@ -22,8 +22,14 @@ $(async function() {
               <table class="table mb-0" id="tabla-presencial">
                 <thead class="table-light">
                   <tr>
-                    <th>ID</th><th>Nombre</th><th>Grupo</th><th>Días</th>
-                    <th>Inicio</th><th>Fin</th><th>URL</th><th>Plataforma</th><th>Acciones</th>
+                    <th class="d-md-none"></th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th class="d-none d-md-table-cell">Grupo</th>
+                    <th class="d-none d-md-table-cell">Días</th>
+                    <th class="d-none d-md-table-cell">Inicio</th>
+                    <th class="d-none d-md-table-cell">Fin</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -38,15 +44,23 @@ $(async function() {
           <div class="card-header"><h5 class="mb-0">Clases Online</h5></div>
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table class="table mb-0" id="tabla-online">
-                <thead class="table-light">
-                  <tr>
-                    <th>ID</th><th>Nombre</th><th>Grupo</th><th>Días</th>
-                    <th>Inicio</th><th>Fin</th><th>URL</th><th>Plataforma</th><th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
+             <table class="table mb-0" id="tabla-online">
+              <thead class="table-light">
+                <tr>
+                  <th class="d-md-none"></th>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th class="d-none d-md-table-cell">Grupo</th>
+                  <th class="d-none d-md-table-cell">Días</th>
+                  <th class="d-none d-md-table-cell">Inicio</th>
+                  <th class="d-none d-md-table-cell">Fin</th>
+                  <th class="d-none d-md-table-cell">URL</th>
+                  <th class="d-none d-md-table-cell">Plataforma</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
             </div>
           </div>
         </div>
@@ -121,22 +135,94 @@ $(async function() {
   $('#clases-container').html(plantillaModulo());
 
   // Filas de la tabla
-  const filaClase = clase => `
+ // Fila para presencial: 7 columnas (sin URL ni plataforma)
+// Fila principal + fila colapsable
+const filaPresencial = clase => {
+  const collapseId = `detalle-${clase.id}`;
+  return `
     <tr data-id="${clase.id}">
+      <td class="d-md-none align-middle">
+        <button
+          class="btn p-0 toggle-btn collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#${collapseId}"
+          aria-expanded="false"
+          aria-controls="${collapseId}"
+        >
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </td>
       <td>${clase.id}</td>
       <td>${clase.nombre}</td>
-      <td>${clase.grupo}</td>
-      <td>${clase.diasSemana}</td>
-      <td>${clase.horaInicio}</td>
-      <td>${clase.horaFin}</td>
-      <td><a href="${clase.url_clase}" target="_blank">Ver</a></td>
-      <td>${clase.plataforma}</td>
+      <td class="d-none d-md-table-cell">${clase.grupo}</td>
+      <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
+      <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
+      <td class="d-none d-md-table-cell">${clase.horaFin}</td>
       <td>
         <button class="btn btn-sm btn-outline-warning editar-clase">Editar</button>
         <button class="btn btn-sm btn-outline-danger eliminar-clase">Eliminar</button>
       </td>
     </tr>
+    <tr id="${collapseId}" class="collapse">
+      <td colspan="8">
+        <ul class="list-unstyled mb-0">
+          <li><strong>Grupo:</strong> ${clase.grupo}</li>
+          <li><strong>Días:</strong> ${clase.diasSemana}</li>
+          <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
+          <li><strong>Fin:</strong> ${clase.horaFin}</li>
+        </ul>
+      </td>
+    </tr>
   `;
+};
+
+const filaOnline = clase => {
+  const collapseId = `detalle-online-${clase.id}`;
+  return `
+    <tr data-id="${clase.id}">
+      <td class="d-md-none align-middle">
+        <button
+          class="btn p-0 toggle-btn collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#${collapseId}"
+          aria-expanded="false"
+          aria-controls="${collapseId}"
+        >
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </td>
+      <td>${clase.id}</td>
+      <td>${clase.nombre}</td>
+      <td class="d-none d-md-table-cell">${clase.grupo}</td>
+      <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
+      <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
+      <td class="d-none d-md-table-cell">${clase.horaFin}</td>
+      <td class="d-none d-md-table-cell"><a href="${clase.url}" target="_blank">Ver</a></td>
+      <td class="d-none d-md-table-cell">${clase.plataforma}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-warning editar-clase">Editar</button>
+        <button class="btn btn-sm btn-outline-danger eliminar-clase">Eliminar</button>
+      </td>
+    </tr>
+    <tr id="${collapseId}" class="collapse">
+      <td colspan="10">
+        <ul class="list-unstyled mb-0">
+          <li><strong>Grupo:</strong> ${clase.grupo}</li>
+          <li><strong>Días:</strong> ${clase.diasSemana}</li>
+          <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
+          <li><strong>Fin:</strong> ${clase.horaFin}</li>
+          <li><strong>URL:</strong> <a href="${clase.url}" target="_blank">Ver</a></li>
+          <li><strong>Plataforma:</strong> ${clase.plataforma}</li>
+        </ul>
+      </td>
+    </tr>
+  `;
+};
+
+
+  
 
   let listadoClases = [];
   const elementoModal = document.getElementById('modal-clase');
@@ -147,10 +233,15 @@ $(async function() {
     $('#tabla-presencial tbody, #tabla-online tbody').empty();
     listadoClases.forEach(c => {
       const tipo = (c.modalidad || '').toLowerCase();
-      if (tipo === 'presencial')   $('#tabla-presencial tbody').append(filaClase(c));
-      else if (tipo === 'online')  $('#tabla-online tbody').append(filaClase(c));
+      if (tipo === 'presencial') {
+        $('#tabla-presencial tbody').append(filaPresencial(c));
+      }
+      else if (tipo === 'online') {
+        $('#tabla-online tbody').append(filaOnline(c));
+      }
     });
   }
+  
 
   // Alternar vista
   $('#boton-presencial').click(() => {

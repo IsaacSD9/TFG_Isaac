@@ -26,6 +26,7 @@
 </head>
 
 <body class="body_index">
+
   <div class="welcome-card text-center">
     <h1>¡Bienvenido a la aplicación!</h1>
     <p>Tu espacio para gestionar clases, alumnos y horarios con eficiencia.</p>
@@ -39,23 +40,23 @@
     </div>
   </div>
 
-  <!-- MODAL DE INICIO DE SESIÓN -->
+  <!-- ========== MODAL INICIO DE SESIÓN ========== -->
   <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content login-modal-content">
         <div class="modal-header border-0">
           <h5 class="modal-title">Iniciar Sesión</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <form id="loginForm">
             <div class="mb-3 input-group">
               <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-              <input type="email" class="form-control" id="loginEmail" placeholder="Correo electrónico" required>
+              <input type="email" id="loginEmail" class="form-control" placeholder="Correo electrónico" required>
             </div>
             <div class="mb-4 input-group">
               <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-              <input type="password" class="form-control" id="loginPassword" placeholder="Contraseña" required>
+              <input type="password" id="loginPassword" class="form-control" placeholder="Contraseña" required>
             </div>
             <div id="loginError" class="form-error mb-3" style="display: none;"></div>
             <button type="submit" class="btn btn-login w-100">Acceder</button>
@@ -65,31 +66,47 @@
     </div>
   </div>
 
-  <!-- MODAL DE CREAR CUENTA -->
+  <!-- ========== MODAL CREAR CUENTA ========== -->
   <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content login-modal-content">
         <div class="modal-header border-0">
           <h5 class="modal-title">Crear Cuenta</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <form id="signupForm">
             <div class="mb-3 input-group">
               <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-              <input type="email" class="form-control" id="signupEmail" placeholder="Correo electrónico" required>
+              <input type="email" id="signupEmail" class="form-control" placeholder="Correo electrónico" required>
             </div>
             <div class="mb-3 input-group">
-              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>  
-              <input type="text" class="form-control" id="signupNombre" placeholder="Nombre" required>
+              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+              <input type="text" id="signupNombre" class="form-control" placeholder="Nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="signupRole" class="form-label">¿Eres alumno o profesor?</label>
+              <select id="signupRole" class="form-select" required>
+                <option value="" disabled selected>Selecciona un rol</option>
+                <option value="alumno">Alumno</option>
+                <option value="profesor">Profesor</option>
+              </select>
+            </div>
+            <div id="signupNumeromatriculaWrapper" class="mb-3" style="display:none;">
+              <label for="signupNumeromatricula" class="form-label">Número de matrícula</label>
+              <input type="text" id="signupNumeromatricula" class="form-control" placeholder="Número de matrícula">
+            </div>
+            <div id="signupEspecialidadWrapper" class="mb-3" style="display:none;">
+              <label for="signupEspecialidad" class="form-label">Especialidad</label>
+              <input type="text" id="signupEspecialidad" class="form-control" placeholder="Especialidad">
             </div>
             <div class="mb-3 input-group">
               <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-              <input type="password" class="form-control" id="signupPassword" placeholder="Contraseña" required>
+              <input type="password" id="signupPassword" class="form-control" placeholder="Contraseña" required>
             </div>
             <div class="mb-4 input-group">
               <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-              <input type="password" class="form-control" id="signupPasswordConfirm" placeholder="Confirmar contraseña" required>
+              <input type="password" id="signupPasswordConfirm" class="form-control" placeholder="Confirmar contraseña" required>
             </div>
             <div id="signupError" class="form-error mb-3" style="display: none;"></div>
             <button type="submit" class="btn btn-login w-100">Registrarse</button>
@@ -98,6 +115,5 @@
       </div>
     </div>
   </div>
-
 </body>
 </html>
