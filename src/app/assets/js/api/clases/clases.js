@@ -1,8 +1,19 @@
 $(async function() {
-  // Reutilizo la instancia definida en navbar.js
+  // Instancia de Supabase (definida en navbar.js)
   const clienteSupabase = supabase;
 
-  // Plantilla de la interfaz
+  // Obtener usuario autenticado
+  const {
+    data: { user },
+    error: authError
+  } = await clienteSupabase.auth.getUser();
+  if (authError) {
+    console.error('Error de autenticación:', authError);
+    return;
+  }
+  const userId = user.id;
+
+  // Plantilla HTML del módulo
   const plantillaModulo = () => `
     <div class="container-fluid px-0">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
@@ -44,23 +55,23 @@ $(async function() {
           <div class="card-header"><h5 class="mb-0">Clases Online</h5></div>
           <div class="card-body p-0">
             <div class="table-responsive">
-             <table class="table mb-0" id="tabla-online">
-              <thead class="table-light">
-                <tr>
-                  <th class="d-md-none"></th>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th class="d-none d-md-table-cell">Grupo</th>
-                  <th class="d-none d-md-table-cell">Días</th>
-                  <th class="d-none d-md-table-cell">Inicio</th>
-                  <th class="d-none d-md-table-cell">Fin</th>
-                  <th class="d-none d-md-table-cell">URL</th>
-                  <th class="d-none d-md-table-cell">Plataforma</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+              <table class="table mb-0" id="tabla-online">
+                <thead class="table-light">
+                  <tr>
+                    <th class="d-md-none"></th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th class="d-none d-md-table-cell">Grupo</th>
+                    <th class="d-none d-md-table-cell">Días</th>
+                    <th class="d-none d-md-table-cell">Inicio</th>
+                    <th class="d-none d-md-table-cell">Fin</th>
+                    <th class="d-none d-md-table-cell">URL</th>
+                    <th class="d-none d-md-table-cell">Plataforma</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -132,116 +143,110 @@ $(async function() {
     </div>
   `;
 
+  // Render del módulo
   $('#clases-container').html(plantillaModulo());
 
-  // Filas de la tabla
- // Fila para presencial: 7 columnas (sin URL ni plataforma)
-// Fila principal + fila colapsable
-const filaPresencial = clase => {
-  const collapseId = `detalle-${clase.id}`;
-  return `
-    <tr data-id="${clase.id}">
-      <td class="d-md-none align-middle">
-        <button
-          class="btn p-0 toggle-btn collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#${collapseId}"
-          aria-expanded="false"
-          aria-controls="${collapseId}"
-        >
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </td>
-      <td>${clase.id}</td>
-      <td>${clase.nombre}</td>
-      <td class="d-none d-md-table-cell">${clase.grupo}</td>
-      <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
-      <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
-      <td class="d-none d-md-table-cell">${clase.horaFin}</td>
-      <td>
-        <button class="btn btn-sm btn-outline-warning editar-clase">Editar</button>
-        <button class="btn btn-sm btn-outline-danger eliminar-clase">Eliminar</button>
-      </td>
-    </tr>
-    <tr id="${collapseId}" class="collapse">
-      <td colspan="8">
-        <ul class="list-unstyled mb-0">
-          <li><strong>Grupo:</strong> ${clase.grupo}</li>
-          <li><strong>Días:</strong> ${clase.diasSemana}</li>
-          <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
-          <li><strong>Fin:</strong> ${clase.horaFin}</li>
-        </ul>
-      </td>
-    </tr>
-  `;
-};
+  // Funciones para filas
+  const filaPresencial = clase => {
+    const collapseId = `detalle-${clase.id}`;
+    return `
+      <tr data-id="${clase.id}">
+        <td class="d-md-none align-middle">
+          <button
+            class="btn p-0 toggle-btn collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#${collapseId}"
+            aria-expanded="false"
+            aria-controls="${collapseId}"
+          >
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </td>
+        <td>${clase.id}</td>
+        <td>${clase.nombre}</td>
+        <td class="d-none d-md-table-cell">${clase.grupo}</td>
+        <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
+        <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
+        <td class="d-none d-md-table-cell">${clase.horaFin}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-warning editar-clase">Editar</button>
+          <button class="btn btn-sm btn-outline-danger eliminar-clase">Eliminar</button>
+        </td>
+      </tr>
+      <tr id="${collapseId}" class="collapse">
+        <td colspan="8">
+          <ul class="list-unstyled mb-0">
+            <li><strong>Grupo:</strong> ${clase.grupo}</li>
+            <li><strong>Días:</strong> ${clase.diasSemana}</li>
+            <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
+            <li><strong>Fin:</strong> ${clase.horaFin}</li>
+          </ul>
+        </td>
+      </tr>
+    `;
+  };
 
-const filaOnline = clase => {
-  const collapseId = `detalle-online-${clase.id}`;
-  return `
-    <tr data-id="${clase.id}">
-      <td class="d-md-none align-middle">
-        <button
-          class="btn p-0 toggle-btn collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#${collapseId}"
-          aria-expanded="false"
-          aria-controls="${collapseId}"
-        >
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </td>
-      <td>${clase.id}</td>
-      <td>${clase.nombre}</td>
-      <td class="d-none d-md-table-cell">${clase.grupo}</td>
-      <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
-      <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
-      <td class="d-none d-md-table-cell">${clase.horaFin}</td>
-      <td class="d-none d-md-table-cell"><a href="${clase.url}" target="_blank">Ver</a></td>
-      <td class="d-none d-md-table-cell">${clase.plataforma}</td>
-      <td>
-        <button class="btn btn-sm btn-outline-warning editar-clase">Editar</button>
-        <button class="btn btn-sm btn-outline-danger eliminar-clase">Eliminar</button>
-      </td>
-    </tr>
-    <tr id="${collapseId}" class="collapse">
-      <td colspan="10">
-        <ul class="list-unstyled mb-0">
-          <li><strong>Grupo:</strong> ${clase.grupo}</li>
-          <li><strong>Días:</strong> ${clase.diasSemana}</li>
-          <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
-          <li><strong>Fin:</strong> ${clase.horaFin}</li>
-          <li><strong>URL:</strong> <a href="${clase.url}" target="_blank">Ver</a></li>
-          <li><strong>Plataforma:</strong> ${clase.plataforma}</li>
-        </ul>
-      </td>
-    </tr>
-  `;
-};
-
-
-  
+  const filaOnline = clase => {
+    const collapseId = `detalle-online-${clase.id}`;
+    return `
+      <tr data-id="${clase.id}">
+        <td class="d-md-none align-middle">
+          <button
+            class="btn p-0 toggle-btn collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#${collapseId}"
+            aria-expanded="false"
+            aria-controls="${collapseId}"
+          >
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </td>
+        <td>${clase.id}</td>
+        <td>${clase.nombre}</td>
+        <td class="d-none d-md-table-cell">${clase.grupo}</td>
+        <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
+        <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
+        <td class="d-none d-md-table-cell">${clase.horaFin}</td>
+        <td class="d-none d-md-table-cell"><a href="${clase.url}" target="_blank">Ver</a></td>
+        <td class="d-none d-md-table-cell">${clase.plataforma}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-warning editar-clase">Editar</button>
+          <button class="btn btn-sm btn-outline-danger eliminar-clase">Eliminar</button>
+        </td>
+      </tr>
+      <tr id="${collapseId}" class="collapse">
+        <td colspan="10">
+          <ul class="list-unstyled mb-0">
+            <li><strong>Grupo:</strong> ${clase.grupo}</li>
+            <li><strong>Días:</strong> ${clase.diasSemana}</li>
+            <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
+            <li><strong>Fin:</strong> ${clase.horaFin}</li>
+            <li><strong>URL:</strong> <a href="${clase.url}" target="_blank">Ver</a></li>
+            <li><strong>Plataforma:</strong> ${clase.plataforma}</li>
+          </ul>
+        </td>
+      </tr>
+    `;
+  };
 
   let listadoClases = [];
   const elementoModal = document.getElementById('modal-clase');
   const modalClase    = new bootstrap.Modal(elementoModal);
 
-  // Pintar tablas según modalidad
+  // Mostrar según modalidad
   function mostrarClases() {
     $('#tabla-presencial tbody, #tabla-online tbody').empty();
     listadoClases.forEach(c => {
       const tipo = (c.modalidad || '').toLowerCase();
       if (tipo === 'presencial') {
         $('#tabla-presencial tbody').append(filaPresencial(c));
-      }
-      else if (tipo === 'online') {
+      } else if (tipo === 'online') {
         $('#tabla-online tbody').append(filaOnline(c));
       }
     });
   }
-  
 
   // Alternar vista
   $('#boton-presencial').click(() => {
@@ -257,7 +262,7 @@ const filaOnline = clase => {
     $('#boton-presencial').removeClass('active');
   });
 
-  // Abrir formulario para nueva clase
+  // Abrir modal para agregar
   $('#boton-agregar').click(() => {
     $('#formulario-clase')[0].reset();
     $('#campo-id').val('');
@@ -265,21 +270,21 @@ const filaOnline = clase => {
     modalClase.show();
   });
 
-  // Guardar o actualizar en Supabase
+  // Guardar o actualizar en Supabase (con profesor_id)
   $('#boton-guardar').click(async () => {
     const idExistente = $('#campo-id').val();
     const datosClase = {
-      nombre:     $('#campo-nombre').val(),
-      grupo:      $('#campo-grupo').val(),
-      modalidad:  $('#campo-modalidad').val().toUpperCase(),
-      diasSemana: $('#campo-diasSemana').val(), // Array de días
-      horaInicio: $('#campo-horaInicio').val(),
-      horaFin:    $('#campo-horaFin').val(),
-      url:  $('#campo-url').val(),
-      plataforma: $('#campo-plataforma').val()
+      nombre:      $('#campo-nombre').val(),
+      grupo:       $('#campo-grupo').val(),
+      modalidad:   $('#campo-modalidad').val().toUpperCase(),
+      diasSemana:  $('#campo-diasSemana').val(),
+      horaInicio:  $('#campo-horaInicio').val(),
+      horaFin:     $('#campo-horaFin').val(),
+      url:         $('#campo-url').val(),
+      plataforma:  $('#campo-plataforma').val(),
+      profesor_id: userId
     };
-    console.log(datosClase);
-    
+
     if (idExistente) {
       await clienteSupabase
         .from('clases')
@@ -295,15 +300,17 @@ const filaOnline = clase => {
     modalClase.hide();
   });
 
-  // Editar registro
+  // Editar
   $('#clases-container').on('click', '.editar-clase', function() {
     const idFila = $(this).closest('tr').data('id');
-    const clase   = listadoClases.find(x => x.id == idFila);
+    const clase  = listadoClases.find(x => x.id == idFila);
     $('#campo-id').val(clase.id);
-    const modalidad = clase.modalidad.charAt(0).toUpperCase() + clase.modalidad.slice(1).toLowerCase(); 
-    $('#campo-modalidad').val(modalidad);    $('#campo-nombre').val(clase.nombre);
+    $('#campo-modalidad').val(
+      clase.modalidad.charAt(0).toUpperCase() + clase.modalidad.slice(1).toLowerCase()
+    );
+    $('#campo-nombre').val(clase.nombre);
     $('#campo-grupo').val(clase.grupo);
-    $('#campo-diasSemana').val(clase.diasSemana); // Asignar el array de días
+    $('#campo-diasSemana').val(clase.diasSemana);
     $('#campo-horaInicio').val(clase.horaInicio);
     $('#campo-horaFin').val(clase.horaFin);
     $('#campo-url').val(clase.url);
@@ -312,7 +319,7 @@ const filaOnline = clase => {
     modalClase.show();
   });
 
-  // Eliminar registro
+  // Eliminar
   $('#clases-container').on('click', '.eliminar-clase', async function() {
     const idFila = $(this).closest('tr').data('id');
     await clienteSupabase
@@ -322,17 +329,21 @@ const filaOnline = clase => {
     await cargarClases();
   });
 
-  // Obtener datos de Supabase
+  // Cargar clases filtradas por profesor_id
   async function cargarClases() {
     const { data, error } = await clienteSupabase
       .from('clases')
       .select('*')
+      .eq('profesor_id', userId)
       .order('nombre', { ascending: false });
-    if (error) return console.error(error);
+    if (error) {
+      console.error(error);
+      return;
+    }
     listadoClases = data;
     mostrarClases();
   }
 
-  // Inicializar listado
+  // Inicializar
   await cargarClases();
 });
