@@ -13,6 +13,15 @@ $(async function() {
   }
   const userId = user.id;
 
+  // Días en español para conversión
+  const diasSemanaOrden = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+  function obtenerNombreDia(fechaString) {
+    const fecha = new Date(fechaString);
+    const diaIndex = fecha.getDay(); // 0=Domingo ... 6=Sábado
+    return diasSemanaOrden[(diaIndex + 6) % 7]; // Ajusta para que lunes sea índice 0
+  }
+
   // Plantilla HTML del módulo
   const plantillaModulo = () => `
     <div class="container-fluid px-0">
@@ -105,16 +114,8 @@ $(async function() {
                 <input type="text" class="form-control" id="campo-grupo" required />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Días de Semana</label>
-                <select class="form-select" id="campo-diasSemana" multiple required>
-                  <option value="Lunes">Lunes</option>
-                  <option value="Martes">Martes</option>
-                  <option value="Miércoles">Miércoles</option>
-                  <option value="Jueves">Jueves</option>
-                  <option value="Viernes">Viernes</option>
-                  <option value="Sábado">Sábado</option>
-                  <option value="Domingo">Domingo</option>
-                </select>
+                <label class="form-label">Fechas de Clase (YYYY-MM-DD separadas por coma)</label>
+                <input type="text" class="form-control" id="campo-fechasClase" placeholder="2025-05-20,2025-05-22" required />
               </div>
               <div class="col-md-3">
                 <label class="form-label">Hora Inicio</label>
@@ -126,11 +127,11 @@ $(async function() {
               </div>
               <div class="col-md-6">
                 <label class="form-label">URL de la Clase</label>
-                <input type="url" class="form-control" id="campo-url" required />
+                <input type="url" class="form-control" id="campo-url" />
               </div>
               <div class="col-md-6">
                 <label class="form-label">Plataforma</label>
-                <input type="text" class="form-control" id="campo-plataforma" required />
+                <input type="text" class="form-control" id="campo-plataforma" />
               </div>
             </form>
           </div>
@@ -145,6 +146,13 @@ $(async function() {
 
   // Render del módulo
   $('#clases-container').html(plantillaModulo());
+
+  // Función para convertir fechas a nombres únicos de días
+  const fechasAFormatoDias = fechas => {
+    if (!Array.isArray(fechas) || fechas.length === 0) return '';
+    const diasUnicos = [...new Set(fechas.map(f => obtenerNombreDia(f)))];
+    return diasUnicos.join(', ');
+  };
 
   // Funciones para filas
   const filaPresencial = clase => {
@@ -166,7 +174,7 @@ $(async function() {
         <td>${clase.id}</td>
         <td>${clase.nombre}</td>
         <td class="d-none d-md-table-cell">${clase.grupo}</td>
-        <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
+        <td class="d-none d-md-table-cell">${fechasAFormatoDias(clase.fechas_clase)}</td>
         <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
         <td class="d-none d-md-table-cell">${clase.horaFin}</td>
         <td>
@@ -178,7 +186,7 @@ $(async function() {
         <td colspan="8">
           <ul class="list-unstyled mb-0">
             <li><strong>Grupo:</strong> ${clase.grupo}</li>
-            <li><strong>Días:</strong> ${clase.diasSemana}</li>
+            <li><strong>Días:</strong> ${fechasAFormatoDias(clase.fechas_clase)}</li>
             <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
             <li><strong>Fin:</strong> ${clase.horaFin}</li>
           </ul>
@@ -206,7 +214,7 @@ $(async function() {
         <td>${clase.id}</td>
         <td>${clase.nombre}</td>
         <td class="d-none d-md-table-cell">${clase.grupo}</td>
-        <td class="d-none d-md-table-cell">${clase.diasSemana}</td>
+        <td class="d-none d-md-table-cell">${fechasAFormatoDias(clase.fechas_clase)}</td>
         <td class="d-none d-md-table-cell">${clase.horaInicio}</td>
         <td class="d-none d-md-table-cell">${clase.horaFin}</td>
         <td class="d-none d-md-table-cell"><a href="${clase.url}" target="_blank">Ver</a></td>
@@ -220,7 +228,7 @@ $(async function() {
         <td colspan="10">
           <ul class="list-unstyled mb-0">
             <li><strong>Grupo:</strong> ${clase.grupo}</li>
-            <li><strong>Días:</strong> ${clase.diasSemana}</li>
+            <li><strong>Días:</strong> ${fechasAFormatoDias(clase.fechas_clase)}</li>
             <li><strong>Inicio:</strong> ${clase.horaInicio}</li>
             <li><strong>Fin:</strong> ${clase.horaFin}</li>
             <li><strong>URL:</strong> <a href="${clase.url}" target="_blank">Ver</a></li>
@@ -273,11 +281,16 @@ $(async function() {
   // Guardar o actualizar en Supabase (con profesor_id)
   $('#boton-guardar').click(async () => {
     const idExistente = $('#campo-id').val();
+
+    // Parseamos las fechas del input, limpiando espacios
+    const fechasTexto = $('#campo-fechasClase').val();
+    const fechasArray = fechasTexto.split(',').map(f => f.trim()).filter(f => f);
+
     const datosClase = {
       nombre:      $('#campo-nombre').val(),
       grupo:       $('#campo-grupo').val(),
       modalidad:   $('#campo-modalidad').val().toUpperCase(),
-      diasSemana:  $('#campo-diasSemana').val(),
+      fechas_clase: fechasArray,
       horaInicio:  $('#campo-horaInicio').val(),
       horaFin:     $('#campo-horaFin').val(),
       url:         $('#campo-url').val(),
@@ -310,7 +323,7 @@ $(async function() {
     );
     $('#campo-nombre').val(clase.nombre);
     $('#campo-grupo').val(clase.grupo);
-    $('#campo-diasSemana').val(clase.diasSemana);
+    $('#campo-fechasClase').val(clase.fechas_clase ? clase.fechas_clase.join(',') : '');
     $('#campo-horaInicio').val(clase.horaInicio);
     $('#campo-horaFin').val(clase.horaFin);
     $('#campo-url').val(clase.url);
