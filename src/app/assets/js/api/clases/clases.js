@@ -216,7 +216,7 @@ $(async function() {
 
   try {
     // IMPORTANTE: la ruta es "/api/generar_examen"
-    const respuesta = await fetch('/api/generar_examen', {
+    const respuesta = await fetch('https://tfg-isaac.vercel.app/api/generar_examen', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ texto })
