@@ -75,7 +75,7 @@ body {
   font-size: 0.95rem;
   color: #666;
   margin-bottom: 0.6rem;
-  display: flex;
+  display: block;
   justify-content: space-between;
 }
 
@@ -216,3 +216,50 @@ body {
   cursor: pointer;
 }
 
+/* El label “Materiales:” en bloque */
+.card-clase .detalle-clase strong {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* El contenedor de materiales siempre en nueva línea */
+.materiales-container {
+  display: block;
+  margin-bottom: 0.5rem;/* Un poco de espacio debajo */
+}
+
+/* Cada enlace ocupa su línea */
+.material-link {
+  display: block;        /* línea separada */
+  width: 100%;           /* ocupa todo el ancho interno */
+  white-space: normal;   /* permite salto de línea */
+  word-break: break-word;/* parte palabras si es necesario */
+  margin-bottom: 0.3rem; /* separación entre enlaces */
+  
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2575fc;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.material-link::before {
+  margin-right: 0.3rem;
+  font-size: 0.9em;
+}
+
+.material-link:hover,
+.material-link:focus {
+  background: rgba(37, 117, 252, 0.1);
+  color: #6a11cb;
+  transform: translateX(2px);
+}
+
+.material-link:visited {
+  color: #6a11cb;
+}
+
+.material-link:active {
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}

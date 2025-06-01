@@ -1,4 +1,3 @@
-// assets/js/api/users/auth.js
 document.addEventListener("DOMContentLoaded", () => {
   const client = window.supabase.createClient(
     'https://eriuicbzxamnusosnwjb.supabase.co',

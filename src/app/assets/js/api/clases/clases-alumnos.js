@@ -41,25 +41,71 @@ $(async function() {
 
   $('#clases-alumnos-container').html(plantillaAlumnos());
 
-  const cartaPresencial = clase => `
-    <div class="card-clase">
+  // Ahora las cartas incluyen los materiales descargables
+  const cartaPresencial = clase => {
+  const listaMat = (clase.materiales || []).map(m => `
+    <a class="material-link" 
+       href="${m.url}" 
+       download="${m.nombre}" 
+       target="_blank">
+      ${m.nombre}
+    </a>
+  `).join('') 
+    || `<span class="text-muted d-block">Sin materiales</span>`;
+
+  return `
+    <div class="card-clase mb-3">
       <h5>${clase.nombre}</h5>
       <div class="grupo">Grupo: ${clase.grupo}</div>
-      <div class="detalle-clase"><strong>Horario:</strong> <span>${clase.horaInicio} - ${clase.horaFin}</span></div>
+      <div class="detalle-clase">
+        <strong>Horario:</strong> 
+        <span>${clase.horaInicio} - ${clase.horaFin}</span>
+      </div>
       <span class="badge-modalidad badge-presencial">Presencial</span>
+      <div class="detalle-clase mt-2">
+        <strong>Materiales:</strong>
+        <div class="materiales-container">
+          ${listaMat}
+        </div>
+      </div>
     </div>
   `;
+};
 
-  const cartaOnline = clase => `
-    <div class="card-clase">
+const cartaOnline = clase => {
+  const listaMat = (clase.materiales || []).map(m => `
+    <a class="material-link" 
+       href="${m.url}" 
+       download="${m.nombre}" 
+       target="_blank">
+      ${m.nombre}
+    </a>
+  `).join('') 
+    || `<span class="text-muted d-block">Sin materiales</span>`;
+
+  return `
+    <div class="card-clase mb-3">
       <h5>${clase.nombre}</h5>
       <div class="grupo">Grupo: ${clase.grupo}</div>
-      <div class="detalle-clase"><strong>Horario:</strong> <span>${clase.horaInicio} - ${clase.horaFin}</span></div>
-      <div class="detalle-clase"><strong>Plataforma:</strong> <span>${clase.plataforma}</span></div>
+      <div class="detalle-clase">
+        <strong>Horario:</strong> 
+        <span>${clase.horaInicio} - ${clase.horaFin}</span>
+      </div>
+      <div class="detalle-clase">
+        <strong>Plataforma:</strong> 
+        <span>${clase.plataforma}</span>
+      </div>
       <a href="${clase.url}" target="_blank" class="link-clase">Ir a la clase</a>
       <span class="badge-modalidad badge-online">Online</span>
+      <div class="detalle-clase mt-2">
+        <strong>Materiales:</strong>
+        <div class="materiales-container">
+          ${listaMat}
+        </div>
+      </div>
     </div>
   `;
+};
 
   let listadoClases = [];
   let listadoInscritas = [];
@@ -90,7 +136,9 @@ $(async function() {
       clasesDia.sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
 
       clasesDia.forEach(clase => {
-        const card = modalidadActual === 'presencial' ? cartaPresencial(clase) : cartaOnline(clase);
+        const card = modalidadActual === 'presencial'
+          ? cartaPresencial(clase)
+          : cartaOnline(clase);
         contenedorDia.append(card);
       });
     });
@@ -117,7 +165,7 @@ $(async function() {
         : `<button class="btn btn-primary btn-inscribirse" data-id="${clase.id}">Inscribirse</button>`;
 
       const card = `
-        <div class="card-clase mb-3 shadow-sm" style="background: #f9f9f9; color: #333;">
+        <div class="card-clase mb-3 shadow-sm" >
           <h5>${clase.nombre}</h5>
           <div class="grupo">Grupo: ${clase.grupo}</div>
           <div class="detalle-clase"><strong>Modalidad:</strong> <span>${clase.modalidad}</span></div>
@@ -144,20 +192,14 @@ $(async function() {
   });
 
   $('#clases-alumnos-container').on('click', '#btn-ver-inscritas', () => {
-    $('#btn-ver-inscritas').addClass('btn-primary');
-    $('#btn-ver-inscritas').removeClass('btn-secondary');
-    $('#btn-ver-todas').removeClass('btn-primary');
-    $('#btn-ver-todas').addClass('btn-secondary');
-
+    $('#btn-ver-inscritas').addClass('btn-primary').removeClass('btn-secondary');
+    $('#btn-ver-todas').addClass('btn-secondary').removeClass('btn-primary');
     mostrarClasesInscritas();
   });
 
   $('#clases-alumnos-container').on('click', '#btn-ver-todas', () => {
-    $('#btn-ver-todas').addClass('btn-primary');
-    $('#btn-ver-todas').removeClass('btn-secondary');
-    $('#btn-ver-inscritas').removeClass('btn-primary');
-    $('#btn-ver-inscritas').addClass('btn-secondary');
-
+    $('#btn-ver-todas').addClass('btn-primary').removeClass('btn-secondary');
+    $('#btn-ver-inscritas').addClass('btn-secondary').removeClass('btn-primary');
     mostrarTodasClases();
   });
 
@@ -202,7 +244,8 @@ $(async function() {
           horaFin,
           url,
           plataforma,
-          profesor_id
+          profesor_id,
+          materiales
         )
       `)
       .eq('alumno_id', alumno.id)
@@ -230,7 +273,7 @@ $(async function() {
   async function cargarTodasClases() {
     const { data, error } = await clienteSupabase
       .from('clases')
-      .select('*')
+      .select('*, materiales')
       .order('horaInicio', { ascending: true });
 
     if (error) {
