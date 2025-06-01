@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   }
 
   // Asegurarse de que la API key está configurada en Vercel
-  const API_KEY = process.env.GEMINI_API_KEY;
+  const API_KEY = process.env.Api_Gemini;
   if (!API_KEY) {
     console.error("🔴 GEMINI_API_KEY no está definida en las variables de entorno de Vercel");
     return res.status(500).json({ error: "Clave de Gemini no configurada en el servidor" });
