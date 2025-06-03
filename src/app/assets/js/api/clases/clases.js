@@ -26,19 +26,7 @@ $(async function() {
   // Plantilla HTML del módulo
   const plantillaModulo = () => `
     <div class="container-fluid px-0">
-     <!-- ======== Sección: Generar Examen ======== -->
-      <div class="card mb-4">
-        <div class="card-header"><h5 class="mb-0">Generar Examen Tipo Test</h5></div>
-        <div class="card-body">
-          <div class="mb-3">
-            <label for="campo-texto-examen" class="form-label">Pega aquí el texto (temario) del PDF:</label>
-            <textarea class="form-control" id="campo-texto-examen" rows="5" placeholder="Introduce el texto copiado del PDF..."></textarea>
-          </div>
-          <button id="boton-generar-examen" class="btn btn-success">Generar Examen</button>
-          <div id="resultado-examen" class="mt-3" style="white-space: pre-wrap; background: #f8f9fa; padding: 1rem; border-radius: .25rem; display: none;"></div>
-        </div>
-      </div>
-      <!-- ======== Fin Sección: Generar Examen ======== -->
+    
 
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
         <h2 class="mb-3 mb-md-0">Gestión de Clases</h2>
@@ -104,7 +92,7 @@ $(async function() {
 
     <!-- Modal Agregar/Editar -->
     <div class="modal fade" id="modal-clase" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
           <div class="modal-header">
             <h5 class="modal-titulo">Agregar Clase</h5>
@@ -177,7 +165,7 @@ $(async function() {
 
     <!-- Modal Asistencia -->
     <div class="modal fade" id="modal-asistencia" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
           <div class="modal-header">
             <h5 class="modal-title">Tomar Asistencia</h5>
@@ -202,70 +190,6 @@ $(async function() {
   // Render del módulo
   $('#clases-container').html(plantillaModulo());
 
-  // 1) Lógica para “Generar Examen”
-  // ============================
- $('#boton-generar-examen').click(async () => {
-  const texto = $('#campo-texto-examen').val().trim();
-  if (!texto) {
-    alert('Por favor, pega el texto del temario antes de generar el examen.');
-    return;
-  }
-
-  $('#boton-generar-examen').prop('disabled', true).text('Generando...');
-  $('#resultado-examen').hide().text('');
-
-  try {
-    // IMPORTANTE: la ruta es "/api/generar_examen"
-    const respuesta = await fetch('https://tfg-isaac.vercel.app/api/generar_examen', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ texto })
-    });
-
-    // Leer el texto bruto para depurar (en desarrollo puedes hacer console.log)
-    const raw = await respuesta.text();
-    console.log('Raw response:', raw);
-
-    if (!respuesta.ok) {
-      // Intentar parsear JSON de error (si lo hubiera)
-      let msgError = `Error ${respuesta.status}`;
-      try {
-        const errJson = JSON.parse(raw);
-        msgError = errJson.error || JSON.stringify(errJson);
-      } catch {
-        msgError = raw || msgError;
-      }
-      alert('Hubo un error al generar el examen: ' + msgError);
-      return;
-    }
-
-    // Parsear el JSON exitoso
-    let cuerpo;
-    try {
-      cuerpo = JSON.parse(raw);
-    } catch (e) {
-      alert('El servidor respondió sin JSON válido.');
-      console.error('Error al parsear JSON:', e, 'Raw:', raw);
-      return;
-    }
-
-    if (!cuerpo.examen) {
-      alert('El servidor no devolvió el campo “examen”.');
-      console.error('JSON recibido sin “examen”: ', cuerpo);
-      return;
-    }
-
-    // Mostrar el examen en pantalla
-    $('#resultado-examen')
-      .text(cuerpo.examen)
-      .show();
-  } catch (err) {
-    console.error('Error en fetch():', err);
-    alert('Error de red o servidor al generar el examen.');
-  } finally {
-    $('#boton-generar-examen').prop('disabled', false).text('Generar Examen');
-  }
-});
 
 
   // Función para convertir fechas a nombres únicos de días
@@ -524,17 +448,26 @@ $(async function() {
     // Limpiar y cargar los materiales existentes
     const $listaMat = $('#lista-materiales-existentes').empty();
     (clase.materiales || []).forEach((m, idx) => {
-      const nombre = m.tipo === 'enlace' ? m.url : m.nombre;
-      const $li = $(`
-        <li class="list-group-item d-flex justify-content-between align-items-center" data-idx="${idx}">
-          <div>
-            <a href="${m.url}" target="_blank">${nombre}</a>
-          </div>
-          <button class="btn btn-sm btn-danger btn-eliminar-material" type="button">Eliminar</button>
-        </li>
-      `);
-      $listaMat.append($li);
-    });
+  const nombre = m.tipo === 'enlace' ? m.url : m.nombre;
+  // Comprobamos si es PDF para añadir el botón extra del examen
+  const botonGenerar = m.tipo === 'pdf'
+    ? `<button class="btn btn-sm btn-success btn-generar-examen-pdf" data-url="${m.url}" style="margin-left: .5rem;">
+         Generar Examen
+       </button>`
+    : '';
+  const $li = $(`
+    <li class="list-group-item d-flex justify-content-between align-items-center" data-idx="${idx}">
+      <div>
+        <a href="${m.url}" target="_blank">${nombre}</a>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-danger btn-eliminar-material" type="button">Eliminar</button>
+        ${botonGenerar}
+      </div>
+    </li>
+  `);
+  $listaMat.append($li);
+});
 
     elementoModal.querySelector('.modal-titulo').textContent = 'Editar Clase';
     modalClase.show();
@@ -607,6 +540,105 @@ $(async function() {
 
     modalAsistencia.show();
   });
+
+// Extraer todo el texto de un PDF usando PDF.js
+async function extraerTextoDePDF(urlPdf) {
+  try {
+    // Descargamos el PDF como un ArrayBuffer
+    const response = await fetch(urlPdf);
+    if (!response.ok) throw new Error(`No se pudo descargar el PDF: ${response.status}`);
+    const arrayBuffer = await response.arrayBuffer();
+
+    // Cargamos el PDF en PDF.js
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    let textoCompleto = '';
+    // Recorremos página por página y extraemos el texto
+    for (let página = 1; página <= pdf.numPages; página++) {
+      const páginaObj = await pdf.getPage(página);
+      const contenido = await páginaObj.getTextContent();
+      // Cada item en contenido.items tiene .str con el fragmento de texto
+      const líneas = contenido.items.map(item => item.str).join(' ');
+      textoCompleto += líneas + '\n\n';
+    }
+    return textoCompleto.trim();
+  } catch (err) {
+    console.error('Error extrayendo texto del PDF:', err);
+    throw err;
+  }
+}
+
+// Manejar clic en “Generar Examen” de cada PDF
+$('#lista-materiales-existentes').on('click', '.btn-generar-examen-pdf', async function() {
+  const urlPdf = $(this).data('url');
+  // Desactivar botón para evitar Doble clic
+  $(this).prop('disabled', true).text('Extrayendo PDF...');
+  
+  try {
+    // Extraer texto del PDF
+    const textoDelPdf = await extraerTextoDePDF(urlPdf);
+    if (!textoDelPdf) {
+      alert('No se pudo extraer texto del PDF o está vacío.');
+      return;
+    }
+
+    // Llamar a la API de generar examen con ese texto
+    $(this).text('Generando examen...');
+    const respuesta = await fetch('https://tfg-isaac.vercel.app/api/generar_examen', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: textoDelPdf })
+    });
+
+    const raw = await respuesta.text();
+    if (!respuesta.ok) {
+      let msgError = `Error ${respuesta.status}`;
+      try {
+        const errJson = JSON.parse(raw);
+        msgError = errJson.error || JSON.stringify(errJson);
+      } catch {
+        msgError = raw || msgError;
+      }
+      alert('Hubo un error al generar el examen: ' + msgError);
+      return;
+    }
+
+    let cuerpo;
+    try {
+      cuerpo = JSON.parse(raw);
+    } catch (e) {
+      alert('El servidor respondió sin JSON válido.');
+      console.error('Error al parsear JSON:', e, 'Raw:', raw);
+      return;
+    }
+
+    if (!cuerpo.examen) {
+      alert('El servidor no devolvió el campo “examen”.');
+      console.error('JSON recibido sin “examen”: ', cuerpo);
+      return;
+    }
+
+    // Mostrar el examen en pantalla
+    let $contenedorResultado = $('#resultado-examen-pdf');
+    if ($contenedorResultado.length === 0) {
+      // Si no existe, lo agrego justo después de la lista de materiales
+      $contenedorResultado = $(`
+        <div id="resultado-examen-pdf" class="mt-3" style="white-space: pre-wrap; padding: 1rem; border-radius: .25rem; max-height: 300px; overflow-y: auto;">
+        </div>
+      `);
+      $('#lista-materiales-existentes').closest('.modal-body').append($contenedorResultado);
+    }
+    $contenedorResultado.text(cuerpo.examen).show();
+
+  } catch (err) {
+    console.error('Error al procesar PDF o al generar examen:', err);
+    alert('Ocurrió un error: ' + err.message);
+  } finally {
+    // Restaurar el texto del botón
+    $(this).prop('disabled', false).text('Generar Examen');
+  }
+});
+
 
   // Guardar asistencia (UPSERT)
   $('#boton-guardar-asistencia').click(async () => {

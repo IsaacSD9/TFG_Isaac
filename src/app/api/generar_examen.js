@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
   // Construir el prompt para Gemini
   const prompt = `
-Eres un generador de exámenes tipo test. A partir del siguiente texto extraído de un PDF, crea un examen con 10 preguntas de opción múltiple (4 opciones cada una, con la respuesta correcta al final de cada pregunta). No incluyas explicaciones adicionales, solo las preguntas en este formato:
+Eres un generador de exámenes tipo test. A partir del siguiente texto extraído de un PDF, crea un examen con 20 preguntas de opción múltiple (4 opciones cada una, con la respuesta correcta al final de cada pregunta). No incluyas explicaciones adicionales, solo las preguntas en este formato:
 
 Pregunta 1: [Texto de la pregunta]
 a) [Opción A]
@@ -40,7 +40,7 @@ c) [Opción C]
 d) [Opción D]
 Respuesta: [a/b/c/d]
 
-(continúa con Pregunta 2, … Pregunta 10)
+(continúa con Pregunta 2, … Hasta la pregunta 20)
 
 TEXTO DEL PDF:
 ----------------
