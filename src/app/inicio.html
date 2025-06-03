@@ -27,7 +27,7 @@
 
   <!-- Contenido -->
   <div class="dashboard-cards">
-    <div class="card-option" onclick="alert('Ir a Inicio')">
+    <div class="card-option" onclick="window.location.href='inicio.html'">
       <i class="bi bi-house-door-fill"></i>
       <h5>Inicio</h5>
     </div>
@@ -39,7 +39,7 @@
       <i class="bi bi-journal-bookmark-fill"></i>
       <h5>Clases</h5>
     </div>
-    <div class="card-option" onclick="window.location.href='horarios/horarios.html'">
+    <div class="card-option" onclick="redirigirHorario()">
       <i class="bi bi-clock-fill"></i>
       <h5>Horarios</h5>
     </div>
@@ -51,14 +51,7 @@
       <i class="bi bi-person-circle"></i>
       <h5>Perfil</h5>
     </div>
-    <div class="card-option" onclick="alert('Ir a Organización')">
-      <i class="bi bi-building"></i>
-      <h5>Organización</h5>
-    </div>
-    <div class="card-option" onclick="alert('Ir a Organización')">
-      <i class="bi bi-building"></i>
-      <h5>Organización</h5>
-    </div>
+    
   </div>
   <script>
   function redirigirClases() {
@@ -72,6 +65,22 @@
       window.location.href = 'clases/clases.html';
     } else if (user.role === 'alumno') {
       window.location.href = 'clases/clases-alumnos.html';
+    } else {
+      alert('Role no reconocido');
+    }
+  }
+
+  function redirigirHorario() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      alert('No hay usuario logueado');
+      return;
+    }
+
+    if (user.role === 'profesor') {
+      window.location.href = 'horarios/horarios-profesores.html';
+    } else if (user.role === 'alumno') {
+      window.location.href = 'horarios/horarios.html';
     } else {
       alert('Role no reconocido');
     }

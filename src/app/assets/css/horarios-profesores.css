@@ -1,0 +1,197 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#calendar-profesor-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Header de navegación */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.calendar-header button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+.calendar-header button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.calendar-header span {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Título */
+#calendar-profesor-card h2 {
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+#calendar-prof {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  font-weight: 500;
+}
+
+.day, .date {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.day {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.date {
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Hover sobre fechas */
+.date:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Día de hoy */
+.date.today {
+  background: #007bff;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Días con clase (resaltados) */
+.date.con-clase {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Info día */
+#info-dia-prof {
+  background: rgba(255, 255, 255, 0.95);
+  color: #222;
+  border-radius: 16px;
+  max-height: 280px;
+  overflow-y: auto;
+  text-align: left;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+}
+
+/* Título info día */
+#info-dia-prof h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #2575fc;
+}
+
+/* Lista de clases */
+#info-dia-prof ul.list-group {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Cada clase */
+#info-dia-prof ul.list-group li.list-group-item {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  padding: 15px 20px;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(101, 47, 199, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+/* Efecto hover en cada clase */
+#info-dia-prof ul.list-group li.list-group-item:hover {
+  box-shadow: 0 10px 25px rgba(101, 47, 199, 0.8);
+}
+
+/* Nombre y modalidad */
+#info-dia-prof ul.list-group li.list-group-item strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+
+/* Horario y enlace */
+#info-dia-prof ul.list-group li.list-group-item br + text,
+#info-dia-prof ul.list-group li.list-group-item br + a {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Link "Ir a la clase" */
+#info-dia-prof ul.list-group li.list-group-item a {
+  color: #ffd600;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+#info-dia-prof ul.list-group li.list-group-item a:hover {
+  color: #ffea00;
+  text-decoration: underline;
+}
+
+/* Scrollbar para info-dia */
+#info-dia-prof::-webkit-scrollbar {
+  width: 8px;
+}
+#info-dia-prof::-webkit-scrollbar-track {
+  background: rgba(37, 117, 252, 0.1);
+  border-radius: 12px;
+}
+#info-dia-prof::-webkit-scrollbar-thumb {
+  background: #2575fc;
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #calendar-profesor-card {
+    padding: 30px 20px;
+  }
+  #calendar-prof {
+    gap: 5px;
+  }
+  .day, .date {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+  .calendar-header span {
+    font-size: 1rem;
+  }
+}

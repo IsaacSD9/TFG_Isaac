@@ -20,7 +20,7 @@ body {
   
   .card-option {
     background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
+    padding: 80px;
     border-radius: 20px;
     text-align: center;
     transition: all 0.3s ease;
