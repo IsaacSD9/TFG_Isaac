@@ -265,8 +265,24 @@ body {
 }
 
 #modal-resumen .modal-body {
-  max-height: 400px;
+  color: black;
+  max-height: 1000px;
   overflow-y: auto;
-  white-space: pre-wrap; /* Mantener saltos de línea */
+  white-space: pre-wrap; 
 }
 
+.modal-title {
+  color: black;
+}
+
+.btn-primary {
+    background: #00c9ff;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 1rem;
+    font-weight: 500;
+  }
+  .btn-primary:hover {
+    background: #92fe9d;
+    color: black;
+  }

@@ -71,8 +71,8 @@ $(async function() {
         ${m.nombre}
       </a>
       ${m.tipo === 'pdf' ? `
-        <button class="btn btn-sm btn-success btn-generar-resumen-pdf" data-url="${m.url}" style="margin-left: .5rem;">
-          Generar Resumen
+        <button class="btn btn-sm btn-primary  btn-generar-resumen-pdf mb-2 ms-0" data-url="${m.url}" style="margin-left: .5rem;">
+          Resumen
         </button>
         <div id="resumen-pdf-${m.nombre}" class="resumen-pdf" style="display:none;"></div>` : ''}
     </div>
@@ -108,8 +108,8 @@ const cartaOnline = clase => {
         ${m.nombre}
       </a>
       ${m.tipo === 'pdf' ? `
-        <button class="btn btn-sm btn-success btn-generar-resumen-pdf" data-url="${m.url}" style="margin-left: .5rem;">
-          Generar Resumen
+        <button class="btn btn-sm btn-primary  btn-generar-resumen-pdf mb-2 ms-0" data-url="${m.url}" style="margin-left: .5rem;">
+          Resumen
         </button>
         <div id="resumen-pdf-${m.nombre}" class="resumen-pdf" style="display:none;"></div>` : ''}
     </div>
