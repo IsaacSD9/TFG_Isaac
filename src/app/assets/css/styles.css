@@ -1,6 +1,8 @@
+/* ============================================
+   Fondo con ondas animadas
+   ============================================ */
 .body_index {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
   color: white;
   min-height: 100vh;
   margin: 0;
@@ -8,8 +10,46 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  overflow: hidden;
+  position: relative; /* Necesario para que las ondas se sitúen correctamente */
+  background-color: #217594;
 }
 
+/* Fondo de ondas animadas */
+.body_index::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0.15) 60%,
+    rgba(255, 255, 255, 0.15) 80%,
+    rgba(255, 255, 255, 0.1) 80%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 1500px 1500px;
+  animation: moveWaves 8s linear infinite; /* Animación de las ondas */
+  z-index: -1; /* Para que esté detrás del contenido */
+}
+
+/* Animación de las ondas */
+@keyframes moveWaves {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 1000px 1000px;
+  }
+}
 
 .welcome-card {
   background-color: rgba(255, 255, 255, 0.1);
@@ -78,7 +118,6 @@
     font-size: 1rem;
   }
 }
-
 
 .login-button-wrapper {
   position: absolute;
@@ -188,7 +227,3 @@
   font-size: 0.95rem;
   text-align: center;
 }
-
-
-
-

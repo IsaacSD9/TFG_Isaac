@@ -1,75 +1,120 @@
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-    color: white;
-    margin: 0;
-    min-height: 100vh;
-    padding: 20px;
-    overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364); /* Fondo degradado elegante */
+  color: white;
+  margin: 0;
+  min-height: 100vh;
+  padding: 40px;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  width: 100%;
+  margin-top: 40px;
+  animation: fadeIn 1s ease-out forwards; 
+}
+
+.card-option {
+  background: rgba(255, 255, 255, 0.1); /* Fondo translúcido con ligera opacidad */
+  padding: 100px 30px; /* Ajuste en el padding para más espacio */
+  border-radius: 25px;
+  text-align: center;
+  transition: all 0.3s ease; /* Transiciones suaves */
+  cursor: pointer;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Sombra más suave y profunda */
+  transform: scale(1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Efecto hover */
+.card-option:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px) scale(1.05); /* Desplazamiento hacia arriba y ligera ampliación */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* Sombra más destacada */
+}
+
+.card-option i {
+  font-size: 3rem;
+  margin-bottom: 20px; /* Mayor espacio entre el ícono y el texto */
+  color: #00c9ff; /* Color llamativo */
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.card-option:hover i {
+  transform: scale(1.1); /* Ampliación del ícono al pasar el cursor */
+  color: #92fe9d; /* Cambiar color al pasar el cursor */
+}
+
+.card-option h5 {
+  font-weight: 700; /* Peso de la fuente más destacado */
+  font-size: 1.4rem; /* Tamaño de texto ajustado */
+  color: white;
+  letter-spacing: 1px; /* Espaciado entre letras */
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
   }
-  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 1024px) {
   .dashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
-    width: 100%;
-    max-width: 1100px;
-    margin: 40px auto 0;
-    animation: fadeIn 1s ease;
   }
-  
+
   .card-option {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 80px;
-    border-radius: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 80px 30px;
   }
-  
-  .card-option:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
-  }
-  
+
   .card-option i {
     font-size: 2.5rem;
-    margin-bottom: 15px;
-    color: #00c9ff;
   }
-  
+
   .card-option h5 {
-    font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
   }
-  
-  @media (max-width: 768px) {
-    body {
-      padding: 15px;
-    }
-  
-    .dashboard-cards {
-      gap: 20px;
-    }
-  
-    .card-option {
-      padding: 20px;
-    }
-  
-    .card-option i {
-      font-size: 2rem;
-    }
+
+  .dashboard-cards {
+    gap: 20px;
   }
-  
+
+  .card-option {
+    padding: 60px 20px;
+  }
+
+  .card-option i {
+    font-size: 2rem;
+  }
+
+  .card-option h5 {
+    font-size: 1.1rem;
+  }
+}

@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderMensajePage() {
     return `
       <div class="container my-5">
-        <h2 class="titulo-mensajes"><i class="bi bi-chat-dots-fill me-2"></i>Mensajes</h2>
+        <h2 class="titulo-mensajes"><i class="bi bi-chat-dots-fill me-2"></i>MENSAJES</h2>
         <div class="row gx-4">
           <div class="col-12 col-md-4 mb-4">
             <div class="card-mensajes">

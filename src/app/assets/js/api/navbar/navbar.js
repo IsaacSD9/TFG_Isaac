@@ -11,14 +11,16 @@ $(async function() {
     window.location.href = "/index.html";
     return;
   }
-
   const user = session.user;
 
+ 
   // HTML de la barra de navegación
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark rounded shadow px-3 mb-4">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Panel</a>
+        <a class="navbar-brand" href="#">
+          <img src="" id="logo-navbar" class="navbar-logo">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,7 +29,7 @@ $(async function() {
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link" href="/inicio.html">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="/profile/profile.html">Perfil</a></li>
-            <li class="nav-item"><a class="nav-link" href="/configuracion.html">Configuración</a></li>
+            <li class="nav-item"><a class="nav-link" href="/mensajes/mensajes.html">Mensajería</a></li>
           </ul>
           <div class="d-flex align-items-center text-white">
             <span class="me-3 small">${user.email}</span>
@@ -44,10 +46,22 @@ $(async function() {
 
   // Insertar la barra en el contenedor
   $('#navbar-container').html(navbarHTML);
+  
+  const { data, error } = supabase
+  .storage
+  .from('imagenes')
+  .getPublicUrl('logoBlack.png')
+if (error) {
+  console.error(error)
+} else {
+  console.log('URL pública:', data.publicUrl)
+  document.querySelector('#logo-navbar').src = data.publicUrl
+}
 
   // Manejar el click de logout
   $('#logoutBtn').on('click', async function() {
     await supabase.auth.signOut();
     window.location.href = "/index.html";
   });
+
 });

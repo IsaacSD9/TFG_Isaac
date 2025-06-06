@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     app.innerHTML = `
       <div id="calendar-card">
-        <h2><i class="bi bi-calendar3 me-2"></i>Calendario</h2>
+        <h2><i class="bi bi-calendar3 me-2"></i>CALENDARIO DE CLASES</h2>
         <div class="calendar-header mb-3 d-flex align-items-center gap-3">
           <button id="prev-month" class="btn btn-outline-primary btn-sm">«</button>
           <span id="mes-anio" class="fs-5 fw-semibold">${getMonthName(currentMonth)} ${currentYear}</span>
