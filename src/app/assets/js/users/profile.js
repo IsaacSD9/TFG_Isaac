@@ -176,7 +176,6 @@ async function guardarCambios() {
   }
 
   alert('Datos actualizados correctamente.');
-  // Vuelve a recargar el perfil
   await get_profile();
 }
 

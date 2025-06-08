@@ -1,21 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const clienteSupabase = supabase; // tu instancia global de Supabase
+  const clienteSupabase = supabase; 
   const app = document.getElementById("app");
 
-  // Orden de los días en español
   const diasSemanaOrden = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
-  let currentMonth = new Date().getMonth(); // 0-11
+  let currentMonth = new Date().getMonth(); 
   let currentYear = new Date().getFullYear();
 
   let profesorId = null;
-  let fechasClasesProfesor = []; // Array con todas las fechas de clases del profesor (strings yyyy-mm-dd)
-  let clasesProfesor = [];       // Array de objetos clase con fechas_clase, nombre, modalidad, horaInicio, horaFin, url, plataforma
+  let fechasClasesProfesor = []; 
+  let clasesProfesor = [];       
 
   function obtenerNombreDia(fechaString) {
     const fecha = new Date(fechaString);
-    const diaIndex = fecha.getDay(); // 0 = Domingo ... 6 = Sábado
-    return diasSemanaOrden[(diaIndex + 6) % 7]; // Ajustamos para que Lunes sea índice 0
+    const diaIndex = fecha.getDay(); 
+    return diasSemanaOrden[(diaIndex + 6) % 7]; 
   }
 
   async function cargarDatosProfesor() {
@@ -45,10 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
 
-    // Filtramos para quedarnos solo con los que realmente tienen un array en fechas_clase
     clasesProfesor = data.filter(c => c.fechas_clase && Array.isArray(c.fechas_clase));
 
-    // Extraemos todas las fechas únicas (yyyy-mm-dd) en las que este profesor imparte clase
     const fechasSet = new Set();
     clasesProfesor.forEach(clase => {
       clase.fechas_clase.forEach(f => fechasSet.add(f));
@@ -70,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderDates(month, year) {
-    const firstDay = new Date(year, month, 1).getDay(); // 0 = Domingo
+    const firstDay = new Date(year, month, 1).getDay(); 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
     const offset = firstDay === 0 ? 6 : firstDay - 1;
@@ -138,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    // Ocultamos la caja de información al renderizar o cambiar de mes
     const infoDiv = document.getElementById("info-dia-prof");
     infoDiv.style.display = "none";
 

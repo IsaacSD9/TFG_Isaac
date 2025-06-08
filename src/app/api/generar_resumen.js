@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   // Asegurarse de que la API key está configurada en Vercel
   const API_KEY = process.env.Api_Gemini;  // Tu clave de API de Gemini
   if (!API_KEY) {
-    console.error("🔴 GEMINI_API_KEY no está definida en las variables de entorno de Vercel");
+    console.error("GEMINI_API_KEY no está definida en las variables de entorno de Vercel");
     return res.status(500).json({ error: "Clave de Gemini no configurada en el servidor" });
   }
 
@@ -54,7 +54,7 @@ ${texto}
 
     // Si Gemini devolvió un status distinto de 2xx, propagar el error
     if (!respuestaGemini.ok) {
-      console.error("🔴 Error al llamar a Gemini:", respuestaGemini.status, raw);
+      console.error("Error al llamar a Gemini:", respuestaGemini.status, raw);
       return res.status(502).json({ error: "Error al llamar a Gemini: " + raw });
     }
 
@@ -63,21 +63,21 @@ ${texto}
     try {
       data = JSON.parse(raw);
     } catch (e) {
-      console.error("🔴 Gemini devolvió algo que no es JSON válido:", raw);
+      console.error("Gemini devolvió algo que no es JSON válido:", raw);
       return res.status(502).json({ error: "Respuesta inválida de Gemini" });
     }
 
     // Extraer el resumen generado
     const resumenGenerado = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!resumenGenerado) {
-      console.error("🔴 Gemini devolvió datos inesperados:", data);
+      console.error("Gemini devolvió datos inesperados:", data);
       return res.status(500).json({ error: "No se pudo generar el resumen" });
     }
 
     // Devolver el resumen como JSON
     return res.status(200).json({ resumen: resumenGenerado.trim() });
   } catch (err) {
-    console.error("🔴 Error interno al generar resumen:", err);
+    console.error("Error interno al generar resumen:", err);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 }

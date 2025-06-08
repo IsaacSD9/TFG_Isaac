@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyaXVpY2J6eGFtbnVzb3Nud2piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQwNTkzNTMsImV4cCI6MjA1OTYzNTM1M30.zvjROUxji1NSlkUfW8O8QmtWbvaMsQ_YbACbk_1MvP0'
   );
 
-  // Toggle campos numeromatricula / especialidad
   const signupRole       = document.getElementById("signupRole");
   const numMatWrap       = document.getElementById("signupNumeromatriculaWrapper");
   const especialidadWrap = document.getElementById("signupEspecialidadWrapper");

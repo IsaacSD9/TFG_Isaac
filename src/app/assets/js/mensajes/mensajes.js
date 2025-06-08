@@ -1,12 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Configura cliente Supabase
   const clienteSupabase = supabase;
   let userId = null;
   let currentChatId = null;
   let currentChatEmail = '';
 
   $(async function () {
-    // Autenticación
     const { data: { user }, error: authError } = await clienteSupabase.auth.getUser();
     if (authError || !user) {
       $('#app').html('<p class="text-center mt-5 text-danger">Error de autenticación. Inicia sesión de nuevo.</p>');
@@ -19,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $('#app').html(renderMensajePage());
 
     // Cargar lista de chats
-    await loadConversations(userId);
+    await cargarChats(userId);
 
     // Iniciar nuevo chat escribiendo correo
     $('#startChatForm').on('submit', async function (e) {
@@ -47,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $('#chatList').prepend(
           `<a href="#" class="list-group-item list-group-item-action" data-id="${destinatarioId}" data-email="${destinatarioEmail}">${destinatarioEmail}</a>`
         );
-        bindChatClick();
+        chatClick();
       }
       // Seleccionar el chat
       $(`#chatList [data-id="${destinatarioId}"]`).trigger('click');
@@ -72,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert('Error al enviar mensaje.');
       } else {
         $('#mensajeContent').val('');
-        await loadConversation(userId, currentChatId);
+        await cargarMensajesChat(userId, currentChatId);
       }
     });
   });
@@ -121,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Cargar lista de chats
-  async function loadConversations(currentUserId) {
+  async function cargarChats(currentUserId) {
     const { data: msgs, error } = await clienteSupabase.from('mensajes')
       .select(`emisor_id, destinatario_id, emisor:emisor_id (email), destinatario:destinatario_id (email)`)
       .or(`emisor_id.eq.${currentUserId},destinatario_id.eq.${currentUserId}`)
@@ -139,11 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(([id, email]) => `<a href="#" class="list-group-item list-group-item-action" data-id="${id}" data-email="${email}">${email}</a>`)
       .join('') || '<div class="text-center text-muted py-3">Sin conversaciones</div>';
     $('#chatList').html(listHtml);
-    bindChatClick();
+    chatClick();
   }
 
   // Asigna clic a cada chat
-  function bindChatClick() {
+  function chatClick() {
     $('#chatList .list-group-item').off('click').on('click', async function () {
       $('#chatList .active').removeClass('active');
       $(this).addClass('active');
@@ -151,12 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
       currentChatEmail = $(this).data('email');
       $('#chatHeader').text(`Chat con ${currentChatEmail}`);
       $('#mensajeContent, #formMensaje button').prop('disabled', false);
-      await loadConversation(userId, currentChatId);
+      await cargarMensajesChat(userId, currentChatId);
     });
   }
 
   // Cargar mensajes de un chat
-  async function loadConversation(currentUserId, otherUserId) {
+  async function cargarMensajesChat(currentUserId, otherUserId) {
     $('#mensajeList').html('<p class="text-center text-muted">Cargando mensajes...</p>');
     const { data, error } = await clienteSupabase.from('mensajes')
       .select(`*, emisor:emisor_id (email), destinatario:destinatario_id (email)`)

@@ -4,16 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const diasSemanaOrden = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
-  let currentMonth = new Date().getMonth(); // 0-11
+  let currentMonth = new Date().getMonth(); 
   let currentYear = new Date().getFullYear();
 
   let usuarioId = null;
-  let fechasClasesUsuario = []; // Array con todas las fechas de clases del usuario (strings yyyy-mm-dd)
-  let clasesUsuario = []; // Array de objetos clase con fechas_clase
+  let fechasClasesUsuario = []; 
+  let clasesUsuario = []; 
 
   function obtenerNombreDia(fechaString) {
     const fecha = new Date(fechaString);
-    const diaIndex = fecha.getDay(); // 0=Domingo ... 6=Sábado
+    const diaIndex = fecha.getDay(); 
     return diasSemanaOrden[(diaIndex + 6) % 7];
   }
 

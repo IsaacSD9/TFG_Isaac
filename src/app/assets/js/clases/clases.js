@@ -14,13 +14,12 @@ $(async function() {
   }
   const userId = user.id;
 
-  // Días en español para conversión
   const diasSemanaOrden = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
   function obtenerNombreDia(fechaString) {
     const fecha = new Date(fechaString);
-    const diaIndex = fecha.getDay(); // 0=Domingo ... 6=Sábado
-    return diasSemanaOrden[(diaIndex + 6) % 7]; // Ajusta para que lunes sea índice 0
+    const diaIndex = fecha.getDay(); 
+    return diasSemanaOrden[(diaIndex + 6) % 7]; 
   }
 
   // Plantilla HTML del módulo
@@ -470,7 +469,7 @@ $(async function() {
     const $listaMat = $('#lista-materiales-existentes').empty();
     (clase.materiales || []).forEach((m, idx) => {
   const nombre = m.tipo === 'enlace' ? m.url : m.nombre;
-  // Comprobamos si es PDF para añadir el botón extra del examen
+  // Compruebo si es PDF para añadir el botón extra del examen
   const botonGenerar = m.tipo === 'pdf'
     ? `<button class="btn btn-sm btn-success btn-generar-examen-pdf" data-url="${m.url}" style="margin-left: .5rem;">
          Generar Examen
@@ -575,20 +574,16 @@ $(async function() {
 // Extraer todo el texto de un PDF usando PDF.js
 async function extraerTextoDePDF(urlPdf) {
   try {
-    // Descargamos el PDF como un ArrayBuffer
     const response = await fetch(urlPdf);
     if (!response.ok) throw new Error(`No se pudo descargar el PDF: ${response.status}`);
     const arrayBuffer = await response.arrayBuffer();
 
-    // Cargamos el PDF en PDF.js
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
     let textoCompleto = '';
-    // Recorremos página por página y extraemos el texto
     for (let página = 1; página <= pdf.numPages; página++) {
       const páginaObj = await pdf.getPage(página);
       const contenido = await páginaObj.getTextContent();
-      // Cada item en contenido.items tiene .str con el fragmento de texto
       const líneas = contenido.items.map(item => item.str).join(' ');
       textoCompleto += líneas + '\n\n';
     }
