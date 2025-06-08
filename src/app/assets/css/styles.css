@@ -1,6 +1,4 @@
-/* ============================================
-   Fondo con ondas animadas
-   ============================================ */
+/* Fondo con ondas animadas */
 .body_index {
   font-family: 'Poppins', sans-serif;
   color: white;
@@ -11,7 +9,7 @@
   align-items: center;
   padding: 20px;
   overflow: hidden;
-  position: relative; /* Necesario para que las ondas se sitúen correctamente */
+  position: relative; 
   background-color: #217594;
 }
 
@@ -37,11 +35,10 @@
     rgba(255, 255, 255, 0.1) 100%
   );
   background-size: 1500px 1500px;
-  animation: moveWaves 8s linear infinite; /* Animación de las ondas */
+  animation: moveWaves 8s linear infinite; 
   z-index: -1; /* Para que esté detrás del contenido */
 }
 
-/* Animación de las ondas */
 @keyframes moveWaves {
   0% {
     background-position: 0 0;
@@ -142,7 +139,6 @@
   color: #000;
 }
 
-/* ---------- MODAL LOGIN ELEGANTE ---------- */
 
 .login-modal-content {
   background: rgba(255, 255, 255, 0.06);
@@ -165,7 +161,6 @@
   filter: invert(1);
 }
 
-/* ---------- INPUTS CON ICONOS ---------- */
 
 .input-group {
   background-color: rgba(255, 255, 255, 0.08);
@@ -200,7 +195,6 @@
   background: transparent;
 }
 
-/* ---------- BOTÓN DE ACCEDER ---------- */
 
 .btn-login {
   background: #00c9ff;

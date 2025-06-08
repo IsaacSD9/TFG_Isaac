@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
   // Construir el prompt para Gemini para resumir el texto
   const prompt = `
-Eres un generador de resúmenes para alumno. A partir del siguiente texto extraído de un PDF, crea un resumen claro pero no te pases de escueto, que contenga la información importante y principal. No incluyas explicaciones adicionales, solo el resumen en formato de texto.
+Eres un generador de resúmenes para alumno. A partir del siguiente texto extraído de un PDF, crea un resumen claro pero no te pases de escueto, que contenga la información importante y principal. No solo digas lo que contiene el documento, sino que debes explicarlo. Este resumen debe servir al alumno para comprender a la perfección todo el contenido del texto enviado. No incluyas explicaciones adicionales, solo el resumen en formato de texto.
 
 TEXTO DEL PDF:
 ----------------

@@ -195,7 +195,6 @@ body {
   justify-content: center;
 }
 
-/* Ajustar los botones "Mis Clases" y "Todas las Clases" para que tengan la misma altura, margen y estilo */
 #btn-ver-inscritas, #btn-ver-todas {
   border-radius: 30px;
   padding: 0.5rem 1.5rem;
@@ -216,7 +215,6 @@ body {
   cursor: pointer;
 }
 
-/* El label “Materiales:” en bloque */
 .card-clase .detalle-clase strong {
   display: block;
   margin-bottom: 0.4rem;
@@ -225,16 +223,16 @@ body {
 /* El contenedor de materiales siempre en nueva línea */
 .materiales-container {
   display: block;
-  margin-bottom: 0.5rem;/* Un poco de espacio debajo */
+  margin-bottom: 0.5rem;
 }
 
 /* Cada enlace ocupa su línea */
 .material-link {
-  display: block;        /* línea separada */
-  width: 100%;           /* ocupa todo el ancho interno */
-  white-space: normal;   /* permite salto de línea */
-  word-break: break-word;/* parte palabras si es necesario */
-  margin-bottom: 0.3rem; /* separación entre enlaces */
+  display: block;        
+  width: 100%;           
+  white-space: normal;   
+  word-break: break-word;
+  margin-bottom: 0.3rem; 
   
   border-radius: 4px;
   font-size: 0.95rem;

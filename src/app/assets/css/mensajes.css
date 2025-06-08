@@ -109,7 +109,6 @@ body {
   color: #ccc;
 }
 
-/* Responsive ajustes */
 @media (max-width: 576px) {
   #mensajes-container {
     padding: 20px;
@@ -145,7 +144,6 @@ body {
   text-align: right;
 }
 
-/* Cabecera de cada mensaje */
 .mensaje-meta {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
@@ -161,7 +159,6 @@ body {
   font-style: normal;
 }
 
-/* Hora del mensaje */
 .mensaje-timestamp {
   display: block;
   font-size: 0.75rem;
@@ -169,7 +166,6 @@ body {
   color: #ccc;
 }
 
-/* Animación al cargar */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -181,7 +177,6 @@ body {
   }
 }
 
-/* Flex layout para bandeja de entrada tipo chat */
 #inbox {
   display: flex;
   flex-direction: column;
@@ -191,7 +186,6 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Estilo tipo burbuja */
 .mensaje-entry {
   max-width: 80%;
   padding: 0.8rem 1.2rem;
@@ -217,7 +211,6 @@ body {
   text-align: right;
 }
 
-/* Cabecera de cada mensaje */
 .mensaje-meta {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
@@ -233,7 +226,6 @@ body {
   font-style: normal;
 }
 
-/* Hora del mensaje */
 .mensaje-timestamp {
   display: block;
   font-size: 0.75rem;
@@ -241,7 +233,6 @@ body {
   color: #ccc;
 }
 
-/* Animación al cargar */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -253,7 +244,6 @@ body {
   }
 }
 
-/* Flex layout para bandeja de entrada tipo chat */
 #inbox {
   display: flex;
   flex-direction: column;
@@ -280,7 +270,6 @@ body {
   color: #00c9ff;
 }
 
-/* Ajuste del botón de iniciar chat */
 #startChatForm .btn {
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   color: #fff;
@@ -291,20 +280,17 @@ body {
   background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
 }
 
-/* Contenedor del chat: altura fija y flex column */
 .card-mensajes.flex-grow-1 {
   display: flex;
   flex-direction: column;
-  height: 700px; /* ajusta según prefieras */
+  height: 700px; 
 }
 
-/* Área de mensajes: ocupa espacio restante y hace scroll */
 #mensajeList {
   overflow-y: auto;
-  padding-right: 0.5rem; /* evita solapamiento de scroll */
+  padding-right: 0.5rem; 
 }
 
-/* Opcional: suaviza el scroll */
 #mensajeList {
   scroll-behavior: smooth;
 }

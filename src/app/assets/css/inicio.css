@@ -1,17 +1,83 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364); /* Fondo degradado elegante */
+  background: #203a43; 
   color: white;
   margin: 0;
   min-height: 100vh;
   padding: 40px;
-  overflow-x: hidden;
+  overflow-x: hidden; 
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
+
+/* Animaciones de fondo */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.12) 1px, transparent 2px),
+    radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.10) 1px, transparent 2px),
+    radial-gradient(circle at 30% 90%, rgba(255, 255, 255, 0.15) 1px, transparent 2px),
+    radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.09) 1px, transparent 2px),
+    radial-gradient(circle at 5% 70%, rgba(255, 255, 255, 0.13) 1px, transparent 2px),
+    radial-gradient(circle at 95% 40%, rgba(255, 255, 255, 0.11) 1px, transparent 2px);
+  background-size: 100px 100px, 120px 120px, 110px 110px, 90px 90px, 130px 130px, 105px 105px; /* Espaciado de los puntos */
+  animation: floatPoints1 30s linear infinite alternate; /* Animación lenta y continua */
+  z-index: -1;
+  filter: blur(0.8px); 
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 90% 30%, rgba(255, 255, 255, 0.07) 1px, transparent 2px),
+    radial-gradient(circle at 20% 70%, rgba(255, 255, 255, 0.05) 1px, transparent 2px),
+    radial-gradient(circle at 50% 5%, rgba(255, 255, 255, 0.09) 1px, transparent 2px),
+    radial-gradient(circle at 70% 95%, rgba(255, 255, 255, 0.06) 1px, transparent 2px),
+    radial-gradient(circle at 15% 45%, rgba(255, 255, 255, 0.08) 1px, transparent 2px),
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.04) 1px, transparent 2px);
+  background-size: 150px 150px, 170px 170px, 160px 160px, 180px 180px, 190px 190px, 140px 140px; 
+  animation: floatPoints2 40s linear infinite reverse; 
+  z-index: -2;
+  filter: blur(0.5px); 
+}
+
+/* Animación para la primera capa de puntos */
+@keyframes floatPoints1 {
+  0% {
+    background-position: 0% 0%, 10% 10%, 20% 20%, 30% 30%, 40% 40%, 50% 50%;
+    opacity: 1;
+  }
+  100% {
+    background-position: 100% 100%, -10% -10%, 120% 80%, -20% 110%, 90% -30%, 10% 150%; /* Movimiento en todas direcciones */
+    opacity: 0.9;
+  }
+}
+
+/* Animación para la segunda capa de puntos */
+@keyframes floatPoints2 {
+  0% {
+    background-position: 0% 0%, 10% 10%, 20% 20%, 30% 30%, 40% 40%, 50% 50%;
+    opacity: 1;
+  }
+  100% {
+    background-position: -120% -120%, 10% 130%, -30% 90%, 140% -10%, 20% -140%, -100% 10%; /* Movimiento en todas direcciones opuestas */
+    opacity: 0.85;
+  }
+}
+
 
 
 .dashboard-cards {
@@ -25,13 +91,13 @@ body {
 }
 
 .card-option {
-  background: rgba(255, 255, 255, 0.1); /* Fondo translúcido con ligera opacidad */
-  padding: 100px 30px; /* Ajuste en el padding para más espacio */
+  background: rgba(255, 255, 255, 0.1); 
+  padding: 100px 30px; 
   border-radius: 25px;
   text-align: center;
-  transition: all 0.3s ease; /* Transiciones suaves */
+  transition: all 0.3s ease; 
   cursor: pointer;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Sombra más suave y profunda */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); 
   transform: scale(1);
   display: flex;
   justify-content: center;
@@ -40,30 +106,29 @@ body {
   text-align: center;
 }
 
-/* Efecto hover */
 .card-option:hover {
   background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-8px) scale(1.05); /* Desplazamiento hacia arriba y ligera ampliación */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* Sombra más destacada */
+  transform: translateY(-8px) scale(1.05); 
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); 
 }
 
 .card-option i {
   font-size: 3rem;
-  margin-bottom: 20px; /* Mayor espacio entre el ícono y el texto */
-  color: #00c9ff; /* Color llamativo */
+  margin-bottom: 20px; 
+  color: #00c9ff; 
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .card-option:hover i {
-  transform: scale(1.1); /* Ampliación del ícono al pasar el cursor */
-  color: #92fe9d; /* Cambiar color al pasar el cursor */
+  transform: scale(1.1); 
+  color: #92fe9d; 
 }
 
 .card-option h5 {
-  font-weight: 700; /* Peso de la fuente más destacado */
-  font-size: 1.4rem; /* Tamaño de texto ajustado */
+  font-weight: 700; 
+  font-size: 1.4rem; 
   color: white;
-  letter-spacing: 1px; /* Espaciado entre letras */
+  letter-spacing: 1px; 
 }
 
 
